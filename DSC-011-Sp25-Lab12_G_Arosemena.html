@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>dsc-011-sp25-lab12_g_arosemena</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/clipboard/clipboard.min.js"></script>
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/quarto.js"></script>
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/popper.min.js"></script>
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/anchor.min.js"></script>
+<link href="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="DSC-011-Sp25-Lab12_G_Arosemena_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<p>inst— title: “DSC 011 Sp25 Lab 12: Publication-Quality Graphs with <code>ggplot2</code>, Tidy Data, and Pivots for Baby Names and Other Data” author: “Grant Arosemena” date: today format:<br>
+html: embed-resources: true toc: true toc-depth: 4 number-sections: true editor: source execute: echo: true browser: true urlcolor: blue linkcolor: blue</p>
+<hr>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This is the Quarto template notebook for Lab 12 in DSC 011 Sp25 at UC Merced, with a focus on Exploratory Graphical Analysis and Publication-Quality Graphs through Tidy Data and Pivots with <code>ggplot2</code> and other parts of the R/tidyverse as well as practice with authoring through Quarto notebooks in RStudio.</p>
+<p>This file is distributed through git by pulling from the original DSC-011-Sp25-Baby-Names private template upstream repository, and appears at the top-level of the repository.</p>
+</section>
+<section id="assignment" class="level2">
+<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
+<section id="first-steps" class="level3">
+<h3 class="anchored" data-anchor-id="first-steps">First Steps</h3>
+<ol class="example" type="1">
+<li><p>If you haven’t already, inside your cloned project directory, pull the new notebook file and changes by executing in Bash:</p>
+<pre><code>git pull git@github.com:dhard/DSC-011-Sp25-Baby-Names.git</code></pre></li>
+<li><p>After pulling changes, restore your <code>renv</code> environment and install R dependencies for the project:</p>
+<p>In your Bash/Zsh shell, change directory into the top-level <code>DSC-011-Sp25-Baby-Names</code> project directory, and execute the bash command:</p>
+<pre><code>R -e "renv::restore()"</code></pre></li>
+<li><p>Then in RStudio, you can open the R project associated with the top-level <code>DSC-011-Sp25-Baby-Names</code> project directory.</p></li>
+<li><p>Open this Quarto notebook file (with <code>.qmd</code> extension) in RStudio.</p></li>
+<li><p>Select menu item File -&gt; Rename and rename the file to contain your first initial and last name.</p></li>
+<li><p>Update the Author information in the YAML header at the top of the file.</p></li>
+<li><p>Save the file.</p></li>
+</ol>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure to save your renamed file in the top-level of the project directory, in the same place as the original notebook template file called <code>DSC-011-Sp25-Lab12_FirstInitial_LastName.qmd</code> or else the quarto interpreter and its child R interpreter may not be able to find all of the file dependencies of this notebook when you try to render it.</p>
+</div>
+</div>
+<ol start="8" class="example" type="1">
+<li>Render the notebook. If you get errors, make sure that the notebook file is at the top-level of the project directory.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render Quarto Notebooks in Bash">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Render Quarto Notebooks in Bash
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also render a Quarto notebook to HTML in your Bash/Zsh terminal by executing a command such as:</p>
+<pre><code>quarto render DSC-011-Sp25-Lab12_FirstInitial_LastName.qmd</code></pre>
+</div>
+</div>
+</section>
+<section id="load-package-dependencies-of-this-notebook" class="level3">
+<h3 class="anchored" data-anchor-id="load-package-dependencies-of-this-notebook">Load Package Dependencies of this Notebook</h3>
+<p>Here at the top of the notebook we load all the packages required to run its code. This is the first code chunk, so it will be the first one to run in the <strong>freshly-spawned child R interpreter of the Quarto interpreter</strong> when you Render.</p>
+<p>However, while working this assignment interactively in RStudio, you will need to get your <strong>Session R Interpreter,</strong> the one running in your RConsole as a child of your current RStudio session, to behave like the one that renders the notebook.</p>
+<p>So run the following code chunk by (press the green “play” triangle button at the top of its right side):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'palmerpenguins'
+
+The following objects are masked from 'package:datasets':
+
+    penguins, penguins_raw</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggokabeito)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'GGally':
+  method from   
+  +.gg   ggplot2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eulerr)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-object-definitions-and-data-from-our-project-directory" class="level3">
+<h3 class="anchored" data-anchor-id="load-object-definitions-and-data-from-our-project-directory">Load Object Definitions and Data from our Project Directory</h3>
+<section id="load-object-definitions-from-lab-11" class="level4">
+<h4 class="anchored" data-anchor-id="load-object-definitions-from-lab-11">Load Object Definitions from Lab 11</h4>
+<ol start="9" class="example" type="1">
+<li>Double-check that you have entered your summary object definitions from Lab 11 into the file <code>scripts/03b-compute-summaries.R</code></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Previously, we did not make the <code>freq</code> column of <code>babies_born_by_name_and_sex</code> numeric. The tests for your summaries now require this column to be numeric.</p>
+<p>To make this fix and have all your summaries test with CORRECT values, please add this line of code to your script <code>scripts/03b-compute-summaries.R</code> somewhere after the object <code>babies_born_by_name_and_sex</code> is defined:</p>
+<pre><code>babies_born_by_name_and_sex$freq &lt;- as.numeric(babies_born_by_name_and_sex$freq)</code></pre>
+</div>
+</div>
+<ol start="10" class="example" type="1">
+<li>Try to load the data and object definitions by playing the following code chunk</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"scripts/03-explore.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+&gt; baby_clean &lt;- read.csv("data/clean/baby_clean.csv", 
++     header = T)
+
+&gt; baby_clean_f &lt;- read.csv("data/clean/baby_clean.csv", 
++     header = T, stringsAsFactors = T)
+
+&gt; baby_letters &lt;- read.table("data/clean/baby_letters.txt", 
++     header = T)
+
+&gt; babies_born_by_decade_and_sex &lt;- as.data.frame(do.call(rbind, 
++     lapply(split(x = baby_clean_f, f = baby_clean_f$decade), 
++         function(df .... [TRUNCATED] 
+
+&gt; babies_born_by_name_and_sex &lt;- as.data.frame.matrix(do.call(rbind, 
++     c(lapply(sort(unique(baby_clean$boy_name)), function(n) {
++         c(n, " ..." ... [TRUNCATED] 
+
+&gt; names(babies_born_by_name_and_sex) &lt;- c("name", "sex", 
++     "freq")
+
+&gt; babies_born_by_name_and_sex$freq &lt;- as.numeric(babies_born_by_name_and_sex$freq)
+
+&gt; sex_ratio_by_decade &lt;- babies_born_by_decade_and_sex$boy_freq/apply(babies_born_by_decade_and_sex, 
++     1, sum)
+
+&gt; mean_rank_by_name_and_sex &lt;- as.data.frame.matrix(do.call(rbind, 
++     c(lapply(sort(unique(baby_clean$boy_name)), function(n) {
++         c(n, "bo ..." ... [TRUNCATED] 
+
+&gt; names(mean_rank_by_name_and_sex) &lt;- c("name", "sex", 
++     "mean_rank")
+
+&gt; mean_rank_by_name_and_sex$mean_rank &lt;- as.numeric(mean_rank_by_name_and_sex$mean_rank)
+
+&gt; baby_letters_rel &lt;- cbind(LETTERS[-21], sweep(baby_letters[2:7], 
++     2, apply(baby_letters[, 2:7], 2, sum), "/"))
+
+&gt; names(baby_letters_rel)[names(baby_letters_rel) == 
++     "LETTERS[-21]"] &lt;- "letter"
+
+&gt; validation_key &lt;- list(list(name = "baby_clean", hash = "832d1ae438578242fb5624a3207faedd"), 
++     list(name = "baby_letters", hash = "dd99fbc3d66c ..." ... [TRUNCATED] 
+
+&gt; test &lt;- function(x, i) {
++     cat(paste0("Test ", i, ":\n"))
++     cat(paste0("Is the variable \"", x$name, "\" defined? ", 
++         ifelse(exist .... [TRUNCATED] 
+
+&gt; i &lt;- 1
+
+&gt; for (item in validation_key) {
++     test(item, i)
++     i &lt;- i + 1
++ }
+Test 1:
+Is the variable "baby_clean" defined? YES.
+Testing the value of baby_clean: CORRECT 
+Test 2:
+Is the variable "baby_letters" defined? YES.
+Testing the value of baby_letters: CORRECT 
+Test 3:
+Is the variable "babies_born_by_decade_and_sex" defined? YES.
+Testing the value of babies_born_by_decade_and_sex: CORRECT 
+Test 4:
+Is the variable "babies_born_by_name_and_sex" defined? YES.
+Testing the value of babies_born_by_name_and_sex: CORRECT 
+Test 5:
+Is the variable "sex_ratio_by_decade" defined? YES.
+Testing the value of sex_ratio_by_decade: CORRECT 
+Test 6:
+Is the variable "mean_rank_by_name_and_sex" defined? YES.
+Testing the value of mean_rank_by_name_and_sex: CORRECT 
+Test 7:
+Is the variable "baby_letters_rel" defined? YES.
+Testing the value of baby_letters_rel: CORRECT </code></pre>
+</div>
+</div>
+<ol type="a">
+<li>If the sourced script runs and you get all Tests CORRECT, you can move on to the next step.</li>
+<li>If the sourced script runs and you don’t get all Tests CORRECT, then you need to complete Lab 11 and make changes to the definitions and code in file <code>scripts/03b-compute-summaries.R</code>.</li>
+<li>If the sourced script doesn’t run, make sure this notebook file is located at the top-level of the project directory, so that you saved your renamed file in the same place as the original file called <code>DSC-011-Sp25-Lab12_FirstInitial_LastName.qmd</code>.</li>
+</ol>
+</section>
+<section id="load-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-data">Load Data</h4>
+<ol start="11" class="example" type="1">
+<li>Play the following code chunk to load the baby names and baby letters data as tibbles.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>baby_clean_tib <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/clean/baby_clean.csv"</span>, <span class="do">## read_csv is from tidyverse readr and makes tibbles</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)  </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>baby_letters_tib <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">"data/clean/baby_letters.txt"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exploratory-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<section id="analyzing-penguin-body-mass-by-species-and-sex" class="level4">
+<h4 class="anchored" data-anchor-id="analyzing-penguin-body-mass-by-species-and-sex">Analyzing Penguin Body Mass by Species and Sex</h4>
+<p>Let’s recall the first graph that we made in tAPP22 on the distributions of body mass in three species of penguins from the <a href="https://allisonhorst.github.io/palmerpenguins/">Palmer Penguins package</a>.</p>
+<ol start="12" class="example" type="1">
+<li>Play the following code chunk to regenerate the figure. The call to <code>theme()</code> in the graph expression has been updated here from that instructed in tAPP22 to avoid warnings by configuring the placement of the legend according to <a href="https://www.tidyverse.org/blog/2024/02/ggplot2-3-5-0-legends/">recent changes to ggplot2</a></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>species, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> species)) <span class="sc">+</span>  </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sina</span>() <span class="sc">+</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Species"</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Body Mass (g)"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span><span class="st">"Distribution of Body Mass by Species of Penguin"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="st">"data from palmerpenguins.org"</span>) <span class="sc">+</span> </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">position =</span> <span class="st">"inside"</span>)) <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.81</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/plot-penguin-mass-by-species-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Can you see the bimodality in the body masses of penguins of different species in these Sina plots? This bimodality is especially pronounced in the distribution for Gentoo penguins. This naturally leads to the hypothesis that each species is a binary mixture of two body mass distributions, and sex would be a natural cause conveniently represented in the dataset.</p>
+<p>This leads to a question we can explore with Exploratory Data Analysis (EDA): <strong>Are the penguins species sexually dimorphic with different body mass distributions by sex?</strong></p>
+<p>To explore this, let’s modify our existing graph expression further in order to stratify the Sina plots by both species and sex. It’s important to note that reusing our old code saves time, avoids errors, and makes different plots as similar to each other as possible, making differences easier to see.</p>
+<p>Because we are modifying an existing ggplot2 graph expression rather than starting from scratch, it makes sense to work this problem directly in a code chunk. In general though, when you develop new R/tidyverse pipelines and ggplot2 graph expressions, you should do it in the R Console and then copy it to your notebook in a code chunk only after it works and is validated.</p>
+<ol start="13" class="example" type="1">
+<li>Copy-and-paste the graph expression from the previous code chunk above labelled “plot-penguin-mass-by-species” to the empty code chunk immediately below labelled “plot-penguin-mass-by-species-and-sex”.</li>
+</ol>
+<p>The ggplot2 package provides a function <code>interaction()</code> that outputs factors that are Cartesian product of its input factors, with levels corresponding to every combination of the levels of the input factors.</p>
+<ol start="14" class="example" type="1">
+<li>To see what this means, play the following code chunk to see its output:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>species, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g, </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> species)) <span class="sc">+</span>  </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sina</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">interaction</span>(species, sex))) <span class="sc">+</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Species"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Body Mass (g)"</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span><span class="st">"Distribution of Body Mass by Species of Penguin"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="st">"data from palmerpenguins.org"</span>) <span class="sc">+</span> </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">position =</span> <span class="st">"inside"</span>)) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.81</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/demo-interaction()-function-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">interaction</span>(penguins<span class="sc">$</span>species,penguins<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Adelie.female"    "Chinstrap.female" "Gentoo.female"    "Adelie.male"     
+[5] "Chinstrap.male"   "Gentoo.male"     </code></pre>
+</div>
+</div>
+<p>Now in the code chunk labelled “plot-penguin-mass-by-species-and-sex”, modify the old graph-expression to use <code>interaction()</code> to make separate Sina plots for the six combinations of three species and two sexes.</p>
+<ol start="15" class="example" type="1">
+<li>Inside the code chunk below, edit the <code>aes()</code> function to change the bindings of the x, color and fill aesthetics from sex to <code>interaction(species,sex)</code>.</li>
+<li>Provide the optional argument <code>"lex.order = T"</code> inside the three calls to <code>interaction()</code> to set the order of levels to lexical (that is, alphabetical) order (so they will vary faster by sex rather than species).<br>
+</li>
+<li>Provide the optional argument <code>order=c(5,2,1,4,7,6)</code> to both calls to <code>scale_color_okabe_ito()</code> and <code>scale_fill_okabe_ito()</code> to set more similar colors for different sexes of the same species.</li>
+<li>Update the title to add “and Sex” in “by Species of Penguin”</li>
+<li>Update the x-axis label to be “Species and Sex”</li>
+<li>Add “color=” and “fill=” arguments to <code>labs()</code> to change the legend label to be “Species and Sex”</li>
+<li>Change the legend size by adding the layer <code>theme(legend.key.size = unit(0.4, 'cm'))</code></li>
+<li>Adjust the legend position to the value <code>c(0.12, 0.78)</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">interaction</span>(species,sex),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> species,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">lex.order=</span>T)) <span class="sc">+</span>  </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sina</span>() <span class="sc">+</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_okabe_ito</span>(<span class="at">order=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>)) <span class="sc">+</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_okabe_ito</span>(<span class="at">order=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>)) <span class="sc">+</span> </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Species and Sex"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Body Mass (g)"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span><span class="st">"Distribution of Body Mass by Species and Sex of Penguin"</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="st">"data from palmerpenguins.org"</span>,<span class="at">collor=</span><span class="st">"Species and Sex"</span>, <span class="at">fill=</span><span class="st">"Species and Sex"</span>) <span class="sc">+</span> </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">position =</span> <span class="st">"inside"</span>)) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.12</span>, <span class="fl">0.78</span>))<span class="sc">+</span> </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">'cm'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/plot-penguin-mass-by-species-and-sex-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With this example, we see again that the grammar of graphics in ggplot2 makes it very easy to adapt existing graphs to make new ones!</p>
+</section>
+<section id="pairs-plots-of-iris-and-penguins-with-ggpairs" class="level4">
+<h4 class="anchored" data-anchor-id="pairs-plots-of-iris-and-penguins-with-ggpairs">Pairs plots of iris and penguins with <code>ggpairs()</code></h4>
+<p>We saw earlier in the R graphics demo (from calling <code>demo(graphics)</code>), that base-R provides the <code>pairs()</code> function to make a pairs plot for exploratory data analysis and distributional summaries of every numerical variable in a data.frame and scatterplots of each pair of its numerical variables. We saw pairs-plots for the <code>iris</code> data-frame in black-and-white and colored by species.</p>
+<p>The GGAlly package extends ggplot2 and base-R <code>pairs()</code> with the <code>GGally::ggpairs()</code> function, which provides more information and handles categorical as well as numerical variables in its input.</p>
+<ol start="23" class="example" type="1">
+<li>Play the following code chunk to see it in action.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(iris, <span class="fu">aes</span>(<span class="at">color =</span> Species, <span class="at">alpha =</span> <span class="fl">0.4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/ggpairs-iris-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="24" class="example" type="1">
+<li>Prepare to adapt the <code>ggpairs()</code> from the “ggpairs-iris” code-chunk to a new dataset by copying it to the “ggpairs-penguins” code chunk below.</li>
+</ol>
+<p>Adapt the graph-exression in “ggpairs-penguins” to visualize the same for penguins by doing these steps:</p>
+<ol start="25" class="example" type="1">
+<li>Exclude the variables <code>year</code> and <code>island</code> from analysis using base-R selection or the tidyverse select() function.</li>
+<li>Drop rows containing NA</li>
+<li>Make it color-blind friendly using functions from <code>ggokabeito</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>island) <span class="sc">|&gt;</span> <span class="fu">ggpairs</span>(<span class="fu">aes</span>(<span class="at">color =</span> species, <span class="at">alpha =</span> <span class="fl">0.4</span>)) <span class="sc">+</span> <span class="fu">scale_color_okabe_ito</span>() <span class="sc">+</span> <span class="fu">scale_fill_okabe_ito</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/ggpairs-penguins-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pairs-plot-of-first-letter-frequencies-of-baby-names-with-ggpairs" class="level4">
+<h4 class="anchored" data-anchor-id="pairs-plot-of-first-letter-frequencies-of-baby-names-with-ggpairs">Pairs plot of First-Letter Frequencies of Baby Names with <code>ggpairs()</code></h4>
+<ol start="28" class="example" type="1">
+<li><p>Down in the R Console, write code using the <code>ggpairs()</code> functino to generate a pairs plot of the last six numeric columns of <code>baby_letters_rel</code>, showing different measures of first-letter frequencies of baby names.</p></li>
+<li><p>After you have made the figure, copy the working solution in the code chunk labelled “ggpairs-baby-letters” below.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a> baby_letters_rel<span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>letter) <span class="sc">|&gt;</span> <span class="fu">ggpairs</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/ggpairs-baby-letters-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualize-summaries-of-baby-names-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualize-summaries-of-baby-names-data">Visualize Summaries of Baby Names Data</h3>
+<section id="population-frequencies-of-boys-and-girls-by-decade" class="level4">
+<h4 class="anchored" data-anchor-id="population-frequencies-of-boys-and-girls-by-decade">Population Frequencies of Boys and Girls by Decade</h4>
+<p>Let’s develop a bar-chart of this data comparing total numbers of boy and girl babies over decades, using the bar-chart of VADeaths as a model. The bar-chart should have decade and sex varying along the x-axis with decade varying fastest, much like the one we made for VADeaths in lecture.</p>
+<p>To use <code>ggplot2</code> for this we need to make the <code>babies_born_by_decade_and_sex</code> summary data-frame we previously made into a tidy tibble.</p>
+<ol start="30" class="example" type="1">
+<li>Down in the R Console, evaluate <code>babies_born_by_decade_and_sex</code> to see its structure.</li>
+</ol>
+<p>In converting this to a tibble we need to make the following changes in some valid order, not necessarily but including the one given:</p>
+<ol type="a">
+<li>convert the decade information stored in row-names to a column named “decade”,<br>
+</li>
+<li>pivot the data into columns for sex and for frequency with respective names “sex” and “freq”, and</li>
+<li>convert the new decade column into an ordered factor using the base-R <code>ordered()</code> function with the character vector of decades as input.</li>
+</ol>
+<ol start="31" class="example" type="1">
+<li><p>Down in the R Console, develop an R/tidyverse pipeline to achieve these changes and assign the result to an R object with the name <code>babies_born_by_decade_and_sex_tidy</code>.</p></li>
+<li><p>Once you believe you solved the problem, play the following code chunk by pressing its “play” button. If it returns FALSE, keep working on your definition of <code>babies_born_by_decade_and_sex_tidy</code> in the R Console, and use your command-line history to validate your solution until it returns TRUE.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>digest<span class="sc">::</span><span class="fu">digest</span>(babies_born_by_decade_and_sex_tidy) <span class="sc">==</span> <span class="st">"466d532ccc360bc7921aae57217f5ea4"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="33" class="example" type="1">
+<li>Once you have validated your solution, copy your code that defines <code>babies_born_by_decade_and_sex_tidy</code> correctly here in code chunk labeled “define-babies_born_by_decade_and_sex_tidy” (it’s OK if it contains more than one assignment or expression).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>babies_born_by_decade_and_sex_tidy <span class="ot">&lt;-</span> babies_born_by_decade_and_sex <span class="sc">|&gt;</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"decade"</span>)<span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>decade, <span class="at">names_to =</span> <span class="st">"sex"</span>, <span class="at">values_to =</span> <span class="st">"freq"</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">decade =</span> <span class="fu">ordered</span>(decade, <span class="at">levels =</span> <span class="fu">unique</span>(decade)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="34" class="example" type="1">
+<li>Now use the R console to develop a graph-expression that makes a bar-chart of the birth rates by decade and sex from <code>babies_born_by_decade_and_sex_tidy</code> that fulfills these requirements:</li>
+</ol>
+<ol type="a">
+<li>Plots frequency on the y-axis in response to sex</li>
+<li>Fills bars with colors according to sex</li>
+<li>Uses color-blind-friendly colors</li>
+<li>Uses <code>facet_grid()</code> with <code>switch = "x"</code> to trend decades along the x-axis, and</li>
+<li>Provides meaningful, correct and formatted labels for the x- and y-axes, a title and a caption that attributes the data source.</li>
+</ol>
+<ol start="35" class="example" type="1">
+<li>Copy your working graph expression here in the following code chunk to make the figure appear in the notebook when you render it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(babies_born_by_decade_and_sex_tidy,<span class="fu">aes</span>(<span class="at">x=</span>sex, <span class="at">y=</span>freq, <span class="at">fill=</span>sex)) <span class="sc">+</span> <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">facet_grid</span>(<span class="sc">~</span> decade, <span class="at">switch =</span><span class="st">"x"</span>)<span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_okabe_ito</span>() <span class="sc">+</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Birth Rate By Decade and Sex"</span>, <span class="at">x=</span><span class="st">"Decade and Sex"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>, <span class="at">caption =</span> <span class="st">"Data from U.S. Census"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/plot-babies_born_by_decade_and_sex_tidy-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="lollipot-chart-of-top-25-baby-names-by-mean-rank-over-14-decades-colored-by-sex" class="level4">
+<h4 class="anchored" data-anchor-id="lollipot-chart-of-top-25-baby-names-by-mean-rank-over-14-decades-colored-by-sex">Lollipot Chart of Top 25 Baby-Names by Mean Rank Over 14 Decades Colored by Sex</h4>
+<p>Let’s develop a lollipop chart that shows the top 25-ranked names defined by mean rank over decades, polled over sexes, and colored by sex.</p>
+<ol start="36" class="example" type="1">
+<li>Down in the R Console, evaluate <code>mean_rank_by_name_and_sex</code> to see its structure.</li>
+</ol>
+<p>The data is already tidy and pools both boy and girl names. To find the top 25 names though, we need to sort the rows by the value of the mean rank.</p>
+<ol start="37" class="example" type="1">
+<li><p>Down in the R Console, write an R or tidyverse expression to sort the rows of the <code>mean_rank_by_name_and_sex</code> data-frame by their values in mean-rank, ascendingly from small to large values. Use the base-R selection with the order() function to achieve this. and assign the return value as a data-frame to the name <code>names_by_mean_rank</code>. In addition, after you sort the rows, add a column of the ranks with the name “rank” by executing the assignment <code>names_by_mean_rank$rank &lt;- 1:1236</code>.</p></li>
+<li><p>Once you believe you solved the problem, play the following code chunk by pressing its “play” button. If it returns FALSE, keep working on your definition of <code>names_by_mean_rank</code> in the R Console, and use your command-line history to validate your solution until it returns TRUE.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>digest<span class="sc">::</span><span class="fu">digest</span>(names_by_mean_rank) <span class="sc">==</span> <span class="st">"567f5086802a0844953a20ee1ff5f2de"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="39" class="example" type="1">
+<li>Once you have validated your solution, copy your code that defines <code>names_by_mean_rank</code> correctly here in code chunk labeled “define-names_by_mean_rank”.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>names_by_mean_rank <span class="ot">&lt;-</span> mean_rank_by_name_and_sex[<span class="fu">order</span>(mean_rank_by_name_and_sex<span class="sc">$</span>mean_rank),]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>names_by_mean_rank<span class="sc">$</span>rank <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1236</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="40" class="example" type="1">
+<li>Now use the R console to develop a graph-expression successively that makes a lollipop chart of the top-25 names according to the following instructions:</li>
+</ol>
+<ol type="a">
+<li>Start a tidyverse pipeline by calling <code>as_tibble()</code> on <code>names_by_mean_rank</code>.</li>
+<li>Pipe the output through <code>slice(1:25)</code> to filter the top 25 rows.</li>
+<li>Pipe the output through <code>ggplot(aes())</code> and associate the aesthetics x with mean_rank, y with rank, color with sex and label with name.</li>
+<li>Extend the graph expression with <code>geom_segment(aes(y = rank, yend = rank, x = 0, xend = mean_rank))</code></li>
+<li>Extend the graph expression with <code>geom_label(aes(fill=sex), color="white", fontface="bold")</code> to annotate the names on the graph.</li>
+<li>Extend the graph expression with <code>scale_y_reverse()</code> to flip the graph y-axis and put the top-ranked names at the top.</li>
+<li>Extend the graph expression to set both the color and fill aesthetics with the Okabe-Ito palette.</li>
+<li>Extend the graph expression to add meaningful labels of “Mean Rank over Decades” for the x-axis, the empty string for the y-axis, “Top 25 Baby-Names by Mean Rank Over 14 Decades Colored by Sex” as a title and “Data from U.S. Social Security Administration” as the caption.</li>
+<li>Extend the graph expression with</li>
+</ol>
+<pre><code>+ guides(color = guide_legend(position = "inside")) + 
+theme(legend.position.inside = c(0.92, 0.86))</code></pre>
+<ol start="41" class="example" type="1">
+<li>Copy your working graph expression here in the following code chunk to make the figure appear in the notebook when you render it.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(names_by_mean_rank) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>) <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mean_rank, <span class="at">y=</span>rank, <span class="at">color =</span> sex, <span class="at">label =</span> name)) <span class="sc">+</span> <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">y =</span> rank, <span class="at">yend =</span> rank, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> mean_rank)) <span class="sc">+</span> <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">fill=</span>sex), <span class="at">color=</span><span class="st">"white"</span>, <span class="at">fontface=</span><span class="st">"bold"</span>) <span class="sc">+</span> <span class="fu">scale_y_reverse</span>() <span class="sc">+</span> <span class="fu">scale_color_okabe_ito</span>() <span class="sc">+</span> <span class="fu">scale_fill_okabe_ito</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Mean Rank over Decade"</span>, <span class="at">title=</span><span class="st">"Top 25 Baby-Names by Mean Rank Over 14 Decades"</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">caption=</span><span class="st">"Data from U.S. Social Security Administration"</span> ) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">position =</span> <span class="st">"inside"</span>)) <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.92</span>, <span class="fl">0.86</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/plot-names_by_mean_rank-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="make-the-baby-names-tidy" class="level3">
+<h3 class="anchored" data-anchor-id="make-the-baby-names-tidy">Make the Baby Names Tidy</h3>
+<ol start="42" class="example" type="1">
+<li><p>Down in the R Console, write R code that uses the <code>pivot_longer()</code> function to tidy the <code>baby_clean_tib</code> tibble and assign it to a new data-frame with the name <code>baby_clean_tidy</code> with these column names: decade,rank,sex,name,freq .</p></li>
+<li><p>Test if you have tidied the data correctly by playing the following code chunk.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>digest<span class="sc">::</span><span class="fu">digest</span>(baby_clean_tidy) <span class="sc">==</span> <span class="st">"430495299e0fd864ebed0d63c65212f6"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="44" class="example" type="1">
+<li>Once you have validated your solution, copy your code that defines <code>baby_clean_tidy</code> correctly here in code chunk labeled “make-baby-clean-tidy”.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a> baby_clean_tidy <span class="ot">&lt;-</span> baby_clean_tib <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(decade,rank), <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"sex"</span>, <span class="st">".value"</span>), <span class="at">names_sep =</span><span class="st">"_"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualizing-incidence-of-babynames-over-decades-with-euler-diagrams" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-incidence-of-babynames-over-decades-with-euler-diagrams">Visualizing Incidence of Babynames Over Decades with Euler Diagrams</h3>
+<p>Let’s look at the patterns of name-sharing and name-uniqueness over decades using Euler diagrams. (@) Working down in the R Console, first define a set of five decades to compare. You may choose five decades to compare by putting them in a character vector like <code>decades &lt;- c("1880", "1910", "1940", "1970", "2000")</code> or randomly sample five decades with <code>as.character(sample(unique(baby_clean_tidy$decade),5))</code>.</p>
+<ol start="45" class="example" type="1">
+<li><p>Then in the R Console, create a boolean incidence matrix of names over decades called <code>names.table</code>. First pipe the <code>baby_clean_tidy</code> tibble through the <code>select()</code> function, selecting the columns “decade” and “name”.</p></li>
+<li><p>Now use command-line editing to pipe the output of your selection into the base-R <code>table()</code> function and inspect the output.</p></li>
+<li><p>Now use command-line editing to pipe the output of the <code>table()</code> function into the base-R <code>t()</code> function and inspect the output. The base-R <code>t()</code> function stands for a matrix transpose operation, essentially turning a matrix side-ways.</p></li>
+<li><p>Assign the output of this pipeline to the name <code>names.table</code>.</p></li>
+<li><p>Now evaluate the code</p></li>
+</ol>
+<pre><code>plot(
+  euler(
+    as.data.frame.matrix(names.table[, decades])),
+      quantities = TRUE,
+      main = "Sharing of Top 200 U.S. Babynames Across Five Decades")</code></pre>
+<ol start="50" class="example" type="1">
+<li>In the following code-chunk labelled “plot-incidence-over-decades”, save your work by putting the definitions of <code>decades</code>, <code>names.table</code> and the plot-generating code so the figure appears when you render the notebook.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>decades <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">sample</span>(<span class="fu">unique</span>(baby_clean_tidy<span class="sc">$</span>decade),<span class="dv">5</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>names.table <span class="ot">&lt;-</span> baby_clean_tidy <span class="sc">|&gt;</span> <span class="fu">select</span>(decade,name) <span class="sc">|&gt;</span> <span class="fu">table</span>() <span class="sc">|&gt;</span> <span class="fu">t</span>()</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">euler</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame.matrix</span>(names.table[, decades])),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">quantities =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">main =</span> <span class="st">"Sharing of Top 200 U.S. Babynames Across Five Decades"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DSC-011-Sp25-Lab12_G_Arosemena_files/figure-html/plot-incidence-over-decades-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
